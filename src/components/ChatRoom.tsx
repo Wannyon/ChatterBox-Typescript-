@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import styled from "styled-components";
 import MessageForm from './MessageForm';
-import {Message} from "../App";
+import { Message } from "../App";
 
 interface Props {
     roomname: string;
@@ -11,11 +11,25 @@ interface Props {
 
 const ChatRoom = ({ roomname, messages, RefreshMessage }: Props) => {
     const [messageSearch, setMessageSearch] = useState<string>("");
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     const filteredMessages: Message[] = messages.filter(msg =>
         msg.text.toLowerCase().includes(messageSearch.toLowerCase()) ||
         msg.username.toLowerCase().includes(messageSearch.toLowerCase())
     );
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "end"
+            } as ScrollIntoViewOptions);
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [filteredMessages]);
 
     return (
         <ChatRoomContainer className="chat-room">
@@ -29,14 +43,14 @@ const ChatRoom = ({ roomname, messages, RefreshMessage }: Props) => {
 
             <MessagesContainer className="messages">
                 {filteredMessages.map(msg => (
-                    <MessageForm key={msg.id} className="message">
+                    <MessageItem key={msg.id} className="message" ref={messagesEndRef}>
                         <strong>{msg.username}</strong>
                         <p>
                             {msg.text}
                             <span>{new Date(msg.date).toLocaleString()}</span>
                         </p>
 
-                    </MessageForm>
+                    </MessageItem>
                 ))}
             </MessagesContainer>
             <MessageForm roomname={roomname} RefreshMessage={RefreshMessage} />
@@ -59,7 +73,7 @@ const MessagesContainer = styled.div`
   background-color: #7eb6b6;
 `;
 
-const MessageForm = styled.div`
+const MessageItem = styled.div`
   margin-bottom: 10px;
   font-size: medium;
   background-color: #eaece9;
