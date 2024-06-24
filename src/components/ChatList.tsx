@@ -1,7 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const ChatList = ({ rooms, RoomClick }) => {
+interface Props {
+    rooms: string[];
+    RoomClick: (rooms: string) => void;
+}
+
+const ChatList = ({ rooms, RoomClick }: Props) => {
     return (
       <ChatListContainer className="chat-list">
           <ChatListHeader>Chat Rooms</ChatListHeader>

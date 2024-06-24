@@ -2,11 +2,23 @@ import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-const MessageForm = ({ roomname, RefreshMessage }) => {
-    const [text, setText] = useState('');
-    const [username, setUsername] = useState('');
+interface Props {
+    roomname: string;
+    RefreshMessage: () => void;
+}
 
-    const handleSubmit = async (e) => {
+interface NewMessage {
+    username: string;
+    roomname: string;
+    text: string;
+    date: string;
+}
+
+const MessageForm = ({ roomname, RefreshMessage }) => {
+    const [text, setText] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!username) {
@@ -17,7 +29,7 @@ const MessageForm = ({ roomname, RefreshMessage }) => {
             return;
         }
 
-        const newMessage = {
+        const newMessage: NewMessage = {
             username: username,
             roomname: roomname,
             text: text,

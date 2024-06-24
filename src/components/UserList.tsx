@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 interface Props {
-    user
+    users: string[];
+    onAddFriend: (friend: string) => void;
 }
 
-const UserList = ({ users, onAddFriend }) => {
+const UserList = ({ users, onAddFriend }: Props) => {
     return (
         <UserListContainer>
             <UserListHeader>사용자 목록</UserListHeader>

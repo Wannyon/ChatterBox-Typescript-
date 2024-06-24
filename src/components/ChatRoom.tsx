@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
 import MessageForm from './MessageForm';
+import {Message} from "../App";
 
-const ChatRoom = ({ roomname, messages, RefreshMessage }) => {
-    const [messageSearch, setMessageSearch] = useState("");
+interface Props {
+    roomname: string;
+    messages: Message[];
+    RefreshMessage: () => void;
+}
 
-    const filteredMessages = messages.filter(msg =>
+const ChatRoom = ({ roomname, messages, RefreshMessage }: Props) => {
+    const [messageSearch, setMessageSearch] = useState<string>("");
+
+    const filteredMessages: Message[] = messages.filter(msg =>
         msg.text.toLowerCase().includes(messageSearch.toLowerCase()) ||
         msg.username.toLowerCase().includes(messageSearch.toLowerCase())
     );
@@ -22,14 +29,14 @@ const ChatRoom = ({ roomname, messages, RefreshMessage }) => {
 
             <MessagesContainer className="messages">
                 {filteredMessages.map(msg => (
-                    <Message key={msg.id} className="message">
+                    <MessageForm key={msg.id} className="message">
                         <strong>{msg.username}</strong>
                         <p>
                             {msg.text}
                             <span>{new Date(msg.date).toLocaleString()}</span>
                         </p>
 
-                    </Message>
+                    </MessageForm>
                 ))}
             </MessagesContainer>
             <MessageForm roomname={roomname} RefreshMessage={RefreshMessage} />
@@ -52,7 +59,7 @@ const MessagesContainer = styled.div`
   background-color: #7eb6b6;
 `;
 
-const Message = styled.div`
+const MessageForm = styled.div`
   margin-bottom: 10px;
   font-size: medium;
   background-color: #eaece9;

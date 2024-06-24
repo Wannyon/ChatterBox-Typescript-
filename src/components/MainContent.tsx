@@ -1,12 +1,13 @@
 import {useState} from "react";
 import styled from "styled-components";
 
-import CreateRoomForm from "./CreateRoomForm.jsx";
-import ChatList from "./ChatList.jsx";
-import ChatRoom from "./ChatRoom.jsx";
+import CreateRoomForm from "./CreateRoomForm";
+import ChatList from "./ChatList";
+import ChatRoom from "./ChatRoom";
+import {Message} from "../App";
 
 interface Props {
-    messages: string[]
+    messages: Message[];
 }
 
 const MainContent = ({ messages }: Props) => {

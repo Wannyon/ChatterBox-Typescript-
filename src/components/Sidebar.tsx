@@ -1,26 +1,31 @@
 import styled from "styled-components";
-import {useState} from "react";
+import { useState } from "react";
 
 import FriendList from "./FriendList";
-import UserList from "./UserList.js";
+import UserList from "./UserList";
+import { Message } from "../App";
 
-const Sidebar = ({ messages }) => {
+interface Props {
+    messages: Message[];
+}
+
+const Sidebar = ({ messages }: Props) => {
     const users = [...new Set(messages.map(msg => msg.username))];
 
-    const [userSearch, setUserSearch] = useState("");
-    const [friends, setFriends] = useState([]);
+    const [userSearch, setUserSearch] = useState<string>("");
+    const [friends, setFriends] = useState<string[]>([]);
 
-    const handleAddFriend = (friend) => {
+    const handleAddFriend = (friend: string) => {
         if (!friends.includes(friend)) {
             setFriends([...friends, friend]);
         }
     };
 
-    const handleRemoveFriend = (friend) => {
+    const handleRemoveFriend = (friend: string) => {
         setFriends(friends.filter(ex => ex !== friend));
     };
 
-    const filteredUsers = users
+    const filteredUsers: string[] = users
         .filter(user => user.toLowerCase().includes(userSearch.toLowerCase()))
         .filter(user => !friends.includes(user)); // 친구 목록에 없는 사용자들만 필터링
 

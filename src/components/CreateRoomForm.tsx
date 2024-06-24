@@ -1,10 +1,14 @@
 import {useState} from "react";
 import styled from "styled-components";
 
-const CreateRoomForm = ({ onCreateRoom }) => {
-    const [roomname, setRoomname] = useState('');
+interface Props {
+    onCreateRoom: (newRoom: string) => void;
+}
 
-    const handleSubmit = (e) => {
+const CreateRoomForm = ({ onCreateRoom }: Props) => {
+    const [roomname, setRoomname] = useState<string>('');
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (roomname.trim()) {
             onCreateRoom(roomname);

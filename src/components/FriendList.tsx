@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const FriendList = ({ className, friends, onRemoveFriend }) => {
+interface Props {
+    friends: string[];
+    onRemoveFriend: (friend: string) => void;
+}
+
+const FriendList = ({ className, friends, onRemoveFriend }: Props) => {
     return (
         <FriendListContainer className={className}>
             <FriendListHeader>친구 목록</FriendListHeader>

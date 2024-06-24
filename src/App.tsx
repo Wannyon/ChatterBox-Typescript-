@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-import ChatList from "./components/ChatList.jsx";
-import ChatRoom from "./components/ChatRoom.jsx";
-import CreateRoomForm from "./components/CreateRoomForm.jsx";
-import Sidebar from "./components/Sidebar.jsx";
+import ChatList from "./components/ChatList";
+import ChatRoom from "./components/ChatRoom";
+import CreateRoomForm from "./components/CreateRoomForm";
+import Sidebar from "./components/Sidebar";
 
-interface Message {
+export interface Message {
     id: string;
     username: string;
     roomname: string;
