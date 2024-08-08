@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {FormEventHandler, useState} from "react";
 import styled from "styled-components";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 const CreateRoomForm = ({ onCreateRoom }: Props) => {
     const [roomname, setRoomname] = useState<string>('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
         if (roomname.trim()) {
             onCreateRoom(roomname);
