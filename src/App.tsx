@@ -23,7 +23,7 @@ const App = () => {
 
     const getMessages = async () => {
         try {
-            const response = await axios.get<Message[]>("https://www.yungooso.com/api/messages");
+            const response = await axios.get<Message[]>("http://127.0.0.1:3000/classes/messages");
             setMessages(response.data);
         } catch (error) {
             console.error('메시지를 가져오는 중 오류 발생:', error);
