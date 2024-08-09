@@ -10,11 +10,11 @@ interface Props {
 interface NewMessage {
     username: string;
     roomname: string;
-    text: string;
+    message: string;
     date: string;
 }
 
-const MessageForm = ({ roomname, RefreshMessage }) => {
+const MessageForm = ({ roomname, RefreshMessage }: Props) => {
     const [text, setText] = useState<string>('');
     const [username, setUsername] = useState<string>('');
 
@@ -32,13 +32,13 @@ const MessageForm = ({ roomname, RefreshMessage }) => {
         const newMessage: NewMessage = {
             username: username,
             roomname: roomname,
-            text: text,
+            message: text,
             date: new Date().toISOString()
         };
 
         // 서버로 메세지 전송.
         try {
-            await axios.post("https://www.yungooso.com/api/messages", newMessage);
+            await axios.post("http://127.0.0.1:3000/classes/messages", newMessage);
             setText("");
             RefreshMessage();   // 메세지 전송 후 메세지 리스트 갱신.
         } catch (error) {

@@ -14,7 +14,7 @@ const ChatRoom = ({ roomname, messages, RefreshMessage }: Props) => {
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     const filteredMessages: Message[] = messages.filter(msg =>
-        msg.text.toLowerCase().includes(messageSearch.toLowerCase()) ||
+        msg.message.toLowerCase().includes(messageSearch.toLowerCase()) ||
         msg.username.toLowerCase().includes(messageSearch.toLowerCase())
     );
 
@@ -46,7 +46,7 @@ const ChatRoom = ({ roomname, messages, RefreshMessage }: Props) => {
                     <MessageItem key={msg.id} className="message" ref={messagesEndRef}>
                         <strong>{msg.username}</strong>
                         <p>
-                            {msg.text}
+                            {msg.message}
                             <span>{new Date(msg.date).toLocaleString()}</span>
                         </p>
 
