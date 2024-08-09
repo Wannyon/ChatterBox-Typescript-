@@ -17,7 +17,7 @@ const Login = ({ onLogin }: LoginProps) => {
             alert(response.data.message);
             onLogin(username);
         } catch (err) {
-            alert(err.response.error);
+            alert(err.response.data.error);
         }
     };
 

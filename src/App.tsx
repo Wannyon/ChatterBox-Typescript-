@@ -7,6 +7,7 @@ import ChatRoom from "./components/ChatRoom";
 import CreateRoomForm from "./components/CreateRoomForm";
 import Sidebar from "./components/Sidebar";
 import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
 
 export interface Message {
     id: string;
@@ -74,6 +75,7 @@ const App = () => {
             {!user ? (
                 <div>
                     <Login onLogin={ handleLogin }/>
+                    <Signup />
                 </div>
             ) : (
                 <>
