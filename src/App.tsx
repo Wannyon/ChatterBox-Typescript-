@@ -6,12 +6,13 @@ import ChatList from "./components/ChatList";
 import ChatRoom from "./components/ChatRoom";
 import CreateRoomForm from "./components/CreateRoomForm";
 import Sidebar from "./components/Sidebar";
+import Login from "./components/auth/Login";
 
 export interface Message {
     id: string;
     username: string;
     roomname: string;
-    text: string;
+    message: string;
     date: string;
 }
 
@@ -20,11 +21,13 @@ const App = () => {
     const [rooms, setRooms] = useState<string[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<string>("");
     const [roomSearch, setRoomSearch] = useState<string>("");
+    const [user, setUser] = useState<string | null>(null);
 
     const getMessages = async () => {
         try {
             const response = await axios.get<Message[]>("http://127.0.0.1:3000/classes/messages");
             setMessages(response.data);
+            console.log(response.data);
         } catch (error) {
             console.error('메시지를 가져오는 중 오류 발생:', error);
         }
@@ -53,6 +56,11 @@ const App = () => {
         setSelectedRoom(newRoom);
     };
 
+    const handleLogin = (username: string) => {
+        setUser(username);
+    };
+
+
     const returnClick = () => {
         setSelectedRoom(null);
     };
@@ -63,27 +71,35 @@ const App = () => {
 
     return (
         <AppContainer>
-            <MainContent messages={messages}>
-                <button className="return-btn" onClick={returnClick}>return</button>
-                {!selectedRoom && <CreateRoomForm onCreateRoom={handleCreateRoom}/>}
-                {!selectedRoom &&
-                    <SearchBox
-                        type="text"
-                        value={roomSearch}
-                        onChange={(e) => setRoomSearch(e.target.value)}
-                        placeholder="Search (ChatRoom)"
-                    />
-                }
-                {!selectedRoom && <ChatList rooms={filteredRooms} RoomClick={handleRoomClick}/>}
-                {selectedRoom &&
-                    <ChatRoom
-                        roomname={selectedRoom}
-                        messages={messages.filter(msg => msg.roomname === selectedRoom)}
-                        RefreshMessage={getMessages}
-                    />
-                }
-            </MainContent>
-            <Sidebar messages={messages} />
+            {!user ? (
+                <div>
+                    <Login onLogin={ handleLogin }/>
+                </div>
+            ) : (
+                <>
+                    <MainContent messages={ messages }>
+                        <button className="return-btn" onClick={ returnClick }>return</button>
+                        { !selectedRoom && <CreateRoomForm onCreateRoom={ handleCreateRoom }/> }
+                        { !selectedRoom &&
+                            <SearchBox
+                                type="text"
+                                value={ roomSearch }
+                                onChange={(e) => setRoomSearch(e.target.value)}
+                                placeholder="Search (ChatRoom)"
+                            />
+                        }
+                        {!selectedRoom && <ChatList rooms={ filteredRooms } RoomClick={ handleRoomClick }/>}
+                        {selectedRoom &&
+                            <ChatRoom
+                                roomname={ selectedRoom }
+                                messages={ messages.filter(msg => msg.roomname === selectedRoom) }
+                                RefreshMessage={ getMessages }
+                            />
+                        }
+                    </MainContent>
+                    <Sidebar messages={ messages } />
+                </>
+            )}
         </AppContainer>
     );
 };
