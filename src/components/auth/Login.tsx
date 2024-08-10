@@ -2,42 +2,57 @@ import React, { useState } from "react";
 import axios from 'axios';
 
 interface LoginProps {
-    onLogin: (username: string) => void;
+    onLogin: (accessToken: string) => void;
 };
 
 const Login = ({ onLogin }: LoginProps) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://127.0.0.1:3000/login', { username, password });
-            alert(response.data.message);
-            onLogin(username);
+            const response = await axios.post('http://localhost:3000/auth/login', {
+                username,
+                password,
+            });
+
+            const accessToken = response.data;
+            onLogin(accessToken);
+            setError(null);
         } catch (err) {
-            alert(err.response.data.error);
+            alert(err.response.data)
+            if (err.response && err.response.status === 400) {
+                setError('Invalid username or password');
+            } else {
+                setError('An error occurred while logging in');
+            }
         }
     };
 
     return (
         <form onSubmit={ handleLogin }>
-            <input
-                type='text'
-                value={ username }
-                onChange={ (e) => setUsername(e.target.value) }
-                placeholder='Username'
-                required
-            />
-            <input
-                type='password'
-                value={ password }
-                onChange={ (e) => setPassword(e.target.value) }
-                placeholder='Password'
-                required
-            />
-            <button type='submit'>Login</button>
+            <div>
+                <label>Username:</label>
+                <input
+                    type="text"
+                    value={ username }
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input
+                    type="password"
+                    value={ password }
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+            </div>
+            <button type="submit">Login</button>
         </form>
     );
 };

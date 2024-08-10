@@ -38,7 +38,7 @@ const MessageForm = ({ roomname, RefreshMessage }: Props) => {
 
         // 서버로 메세지 전송.
         try {
-            await axios.post("http://127.0.0.1:3000/classes/messages", newMessage);
+            await axios.post("http://localhost:3000/classes/messages", newMessage);
             setText("");
             RefreshMessage();   // 메세지 전송 후 메세지 리스트 갱신.
         } catch (error) {

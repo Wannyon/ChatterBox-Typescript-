@@ -22,11 +22,12 @@ const App = () => {
     const [rooms, setRooms] = useState<string[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<string>("");
     const [roomSearch, setRoomSearch] = useState<string>("");
-    const [user, setUser] = useState<string | null>(null);
+    const [accessToken, setAccessToken] = useState<string | null>(null);
 
     const getMessages = async () => {
         try {
-            const response = await axios.get<Message[]>("http://127.0.0.1:3000/classes/messages");
+            const response = await axios.get<Message[]>("http://localhost:3000/classes/messages");
+            // const response = await axios.get<Message[]>("http://127.0.0.1:3000/classes/messages");
             setMessages(response.data);
             console.log(response.data);
         } catch (error) {
@@ -57,8 +58,8 @@ const App = () => {
         setSelectedRoom(newRoom);
     };
 
-    const handleLogin = (username: string) => {
-        setUser(username);
+    const handleLogin = (token: string) => {
+        setAccessToken(token);
     };
 
 
@@ -72,7 +73,7 @@ const App = () => {
 
     return (
         <AppContainer>
-            {!user ? (
+            {!accessToken  ? (
                 <div>
                     <Login onLogin={ handleLogin }/>
                     <Signup />

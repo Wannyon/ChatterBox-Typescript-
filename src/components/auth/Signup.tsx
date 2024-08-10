@@ -8,10 +8,10 @@ const Signup = () => {
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:3000/signup', { username, password });
-            alert(response.data.message);
+            const response = await axios.post('http://localhost:3000/auth/signup', { username, password });
+            alert(response.data);
         } catch (err) {
-            alert(err.response.data.error);
+            alert(err.response.data);
         }
     };
 
